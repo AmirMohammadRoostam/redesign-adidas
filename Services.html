@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Animated Photo Gallery (Also Frustrating)</title>
+  <link rel="stylesheet" href="Services.css">
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans:800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css'><link rel="stylesheet" href="./style.css">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<link rel="stylesheet" href="Services.css">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+  <header>
+    <div id="navbar" class="navbar">
+      <a href="html.html"   class="logo">
+        <img src="images/adidas_logo_icon_169639.png" class="adidas-logo" id="logo">
+      </a>
+      
+      <nav>
+        <div class="wrapper">
+            
+          <input type="radio" name="slider" id="menu-btn">
+          <input type="radio" name="slider" id="close-btn">
+          <ul class="nav-links">
+            <label for="close-btn" class="btn close-btn"><i class="fas fa-times "></i></label>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shoes</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="login.html"><i class="fa fa-user-circle" aria-hidden="true"></i></a></li>
+          </ul>
+          <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars icon-1"></i></label>
+        </div>
+      </nav>
+        
+      
+  </header>
+
+
+  <section>
+        
+    <div class="hero">
+      <h1>Adidas Services</h1>
+    </div>
+
+    <div class="delivery">
+      <p class="header-content">Services</p>
+
+      
+
+
+
+
+    </div>
+
+
+  </section>
+
+
+  <div class="gallery">
+    <div class="left">
+      <div class="desktopContent">
+        <div class="desktopContentSection">
+          <p class="title">Delivery</p>
+          <p>After receiving the order and confirming it 
+            We will check the order in the warehouse and send it to you. This may take up to a week and you will be charged the shipping fee.</p>
+        </div>
+        <div class="desktopContentSection">
+          <p class="title">Quality</p>
+          <p>Recycled materials are used in the production of shoes and they are very light and resistant. More importantly, they do not harm the nature and can be recycled.</p>
+        </div>
+        <div class="desktopContentSection">
+          <p class="title">Badge</p>
+          <p>There is a new collection with a new sole that is suitable for hiking and climbing and can give you the best performance in running competitions.</p>
+        </div>
+        <div class="desktopContentSection">
+          <p class="title">Contact Us</p>
+          <p>Email us about your purchase and if you have any criticisms or suggestions</p>
+        </div>
+  
+      </div>
+    </div>
+  
+    <div class="right">
+  
+  
+      <div class="desktopPhotos">
+        <div class="desktopPhoto red"></div>
+        <div class="desktopPhoto green"></div>
+        <div class="desktopPhoto pink"></div>
+        <div class="desktopPhoto blue"></div>
+      </div>
+  
+    </div>
+  </div>
+
+
+
+  <section class="footer">
+    <div>
+    <ul class="footer-ul">
+      <li class="footer-li">
+        <P class="footer-p">Cookie Settings</P>
+       </li>
+      <li class="footer-li">
+        <P class="footer-p">Data Settings</P>
+      </li>
+      <li class="footer-li">
+        <P class="footer-p">Cookies</P>
+      </li>
+      <li class="footer-li">
+        <P class="footer-p">Cookie Directory</P>
+      </li>
+      <li class="footer-li">
+        <P class="footer-p">Privacy Notice</P>
+      </li>
+      <li class="footer-li2">
+        <P class="footer-p">Terms and Conditions</P>
+      </li>
+    </ul>
+  </section>  
+
+
+  
+<script>
+// learn what all this code means at
+// https://www.creativecodingclub.com/bundles/creative-coding-club
+// unlock over 250 GSAP lessons today
+
+
+const details = gsap.utils.toArray(".desktopContentSection:not(:first-child)")
+const photos = gsap.utils.toArray(".desktopPhoto:not(:first-child)")
+
+
+gsap.set(photos, {yPercent:101})
+
+const allPhotos = gsap.utils.toArray(".desktopPhoto")
+
+
+// create
+let mm = gsap.matchMedia();
+
+// add a media query. When it matches, the associated function will run
+mm.add("(min-width: 600px)", () => {
+
+  // this setup code only runs when viewport is at least 600px wide
+  console.log("desktop")
+	
+  ScrollTrigger.create({
+	trigger:".gallery",
+	start:"top top",
+	end:"bottom bottom",
+	pin:".right"
+})
+
+//create scrolltrigger for each details section
+//trigger photo animation when headline of each details section 
+//reaches 80% of window height
+details.forEach((detail, index)=> {
+
+	let headline = detail.querySelector(".title")
+	let animation = gsap.timeline()
+	   .to(photos[index], {yPercent:0})
+	   .set(allPhotos[index], {autoAlpha:0})
+	ScrollTrigger.create({
+		trigger:headline,
+		start:"top 80%",
+		end:"top 50%",
+		animation:animation,
+		scrub:true,
+		markers:false
+	})
+})
+	
+	
+  
+  return () => { // optional
+    // custom cleanup code here (runs when it STOPS matching)
+	  console.log("mobile")
+  };
+});
+
+
+
+
+
+
+window.onscroll = function() {scrollFunction()};
+
+
+
+
+
+function scrollFunction() {
+if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+ document.getElementById("navbar").style.padding = "20px 10px";
+ document.getElementById("logo").style.height = "60px";
+ document.getElementById("logo").style.width = "130px";
+} else {
+ document.getElementById("navbar").style.padding = "10px 10px";
+ document.getElementById("logo").style.height = "69px";
+ document.getElementById("logo").style.width = "200px";
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+
+</body>
+</html>
